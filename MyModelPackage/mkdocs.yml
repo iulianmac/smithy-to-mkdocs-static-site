@@ -1,0 +1,12 @@
+site_name: My Docs
+
+theme:
+  name: material
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - toc.integrate
+
+nav:
+  - index.md
+  - Api Documentation: api/README.md

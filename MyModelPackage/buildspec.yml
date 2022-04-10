@@ -1,0 +1,25 @@
+version: 0.2
+
+phases:
+  install:
+    commands:
+      - echo Entered the install phase...
+      - apt-get update -y
+      - pip install openapi-generator-cli
+      - pip install mkdocs-material
+  build:
+    commands:
+      - gradle build
+      - ls -la build/smithyprojections/
+      - echo "Copy generated model file"
+      - cp build/smithyprojections/src/source/openapi/Weather.openapi.json .
+      - echo "Convert to OpenAPI Spec"
+      - openapi-generator generate -i Weather.openapi.json -g markdown -o docs/api
+      - mkdocs build
+      - ls site
+artifacts:
+  files:
+    - '**/*'
+  base-directory: site
+
+ 
