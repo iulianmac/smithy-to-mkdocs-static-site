@@ -1,0 +1,30 @@
+@startuml
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Context.puml
+' uncomment the following line and comment the first to use locally
+' !include C4_Context.puml
+
+'LAYOUT_TOP_DOWN()
+'LAYOUT_AS_SKETCH()
+LAYOUT_WITH_LEGEND()
+
+title System Landscape diagram Smithy to S3 doc
+
+Person(developer, "Developer", "Sw Dev")
+Person(customer, "Customer", "Api Customer")
+
+Boundary(pipeline, "Publishing pipelne") {
+    System(codecommit, "CodeCommit", "Code Repo")
+    System(codebuild, "CodeBuild", "Building the docs site")
+    System(release, "Release", "Publish to S3")
+}
+
+Rel(developer, codecommit, "Publish model change")
+Rel_Neighbor(codecommit, codebuild, "Trigger build")
+Rel_Neighbor(codebuild, release, "Publish to S3")
+
+System_Ext(s3, "S3", "Static website")
+Rel_Up(release, s3, "Upload artifacts")
+Rel(customer, s3, "View API Docs")
+
+
+@enduml%
